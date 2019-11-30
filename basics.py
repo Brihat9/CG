@@ -36,3 +36,17 @@ class LineSegment:
     def __str__(self):
         """ Displays end-points of line segment """
         return "[" + str(self.start) + ", " + str(self.terminal) + "]"
+
+class Polygon:
+    """ Polygon Class """
+    def __init__(self, vertex_list):
+        self.vertex_list = vertex_list
+        self.vertex_num = len(vertex_list)
+
+    def __str__(self):
+        """ Displays vertices of polygon """
+        vertices = "\nPolygon with vertices \n[ "
+        for index in range(self.vertex_num):
+            vertices += str(self.vertex_list[index]) + " "
+        vertices += "]"
+        return vertices
