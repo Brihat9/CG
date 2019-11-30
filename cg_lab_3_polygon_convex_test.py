@@ -6,7 +6,7 @@ from cg_lab_2_1_line_segment_intersection import *
 
 def is_polygon_convex(polygon):
     """ checks whether given polygon is convex or not
-        parameters: list of vertices, number of vertices
+        parameters: Polygon
         output: boolean
     """
     vertex_list = polygon.vertex_list
@@ -21,7 +21,7 @@ def is_polygon_convex(polygon):
 
 def is_point_inclusion(polygon, query_point):
     """ checks whether given point is inside given polygon or not
-        parameters: list of vertices, query point
+        parameters: Polygon, query point
         output: boolean
     """
     vertex_list = polygon.vertex_list
@@ -36,7 +36,7 @@ def is_point_inclusion(polygon, query_point):
 
 def ray_casting(polygon, ray_line):
     """ checks number of intersection a ray makes with polygon
-        parameters: list of vertices, ray_line
+        parameters: Polygon, ray (line)
         output: number of intersection
     """
     vertex_list = polygon.vertex_list
@@ -55,7 +55,7 @@ def main():
     print("CG LAB 3 (Polygon Convex Test)")
     print("Brihat Ratna Bajracharya\n19/075\n")
 
-    ''' get number of vertex for polygon '''
+    ''' get number of vertices for polygon '''
     print("Enter number of vertex of polygon:"),
     vertex_num = int(raw_input())
     # print(vertex_num)
