@@ -50,35 +50,43 @@ def main():
     print(" First Point")
     first_point = Point.input_point()
 
-    print("Enter coordinates of second point (P2)")
-    print(" Second Point")
-    second_point = Point.input_point()
+    choice = 'y' # default choice 'yes'
+    while(choice == 'y' or choice == 'Y'):
+        print("\nEnter coordinates of second point (P2)")
+        print(" Second Point")
+        second_point = Point.input_point()
 
-    area = compute_area(base_point, first_point, second_point)
-    print(" \n Area of triangle formed by P0 P1 P2 is {0:{1}}"
-        .format(area, '+' if area else ''))
+        area = compute_area(base_point, first_point, second_point)
+        print(" \n Area of triangle formed by P0 P1 P2 is {0:{1}}"
+            .format(area, '+' if area else ''))
 
-    are_points_colinear = is_colinear(base_point, first_point, second_point)
-    is_left = is_left_turn(base_point, first_point, second_point)
-    is_right = is_right_turn(base_point, first_point, second_point)
+        are_points_colinear = is_colinear(base_point, first_point, second_point)
+        is_left = is_left_turn(base_point, first_point, second_point)
+        is_right = is_right_turn(base_point, first_point, second_point)
 
-    ''' TEST for colinear, left and right '''
-    # print("\n Are points colinear? {}".format(are_points_colinear))
-    # print(" Is P2 left of P1?    {}".format(is_left))
-    # print(" Is P2 right of P1?   {}".format(is_right))
+        ''' TEST for colinear, left and right '''
+        # print("\n Are points colinear? {}".format(are_points_colinear))
+        # print(" Is P2 left of P1?    {}".format(is_left))
+        # print(" Is P2 right of P1?   {}".format(is_right))
 
-    print("\n\n RESULT\n ------")
-    if not are_points_colinear:
-        result = "right" if is_right else "left"
-        print("\n Point P2 " + str(second_point) + " is in the " + result),
-        print("of Point P1 " + str(first_point) + "\n when observed from"),
-        print("Point P0 " + str(base_point))
-    else:
-        print("\n Point P0 " + str(base_point) + " is colinear with"),
-        print("Point P1 " + str(first_point)),
-        print("and Point P2 " + str(second_point))
+        print("\n\n RESULT\n ------")
+        if not are_points_colinear:
+            result = "right" if is_right else "left"
+            print("\n Point P2 " + str(second_point) + " is in the " + result),
+            print("of Point P1 " + str(first_point) + "\n when observed from"),
+            print("Point P0 " + str(base_point))
+        else:
+            print("\n Point P0 " + str(base_point) + " is colinear with"),
+            print("Point P1 " + str(first_point)),
+            print("and Point P2 " + str(second_point))
 
-    print("\nDONE.\n")
+        print("\nDONE.\n")
+
+        ''' Going again if input is 'y', 'Y' or empty '''
+        print('Go again? [Y/n]:'),
+        choice = raw_input()
+        if not choice:
+            choice = 'y'
 
 if __name__ == '__main__':
     main()
