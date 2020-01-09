@@ -44,7 +44,7 @@ def ray_casting(polygon, ray_line):
     ray_casting_result = [False] * vertex_num
     for index in range(vertex_num):
         edge = LineSegment(vertex_list[index], vertex_list[(index+1) % vertex_num])
-        ray_casting_result[index] = does_lines_intersects(edge, ray_line)
+        ray_casting_result[index] = does_lines_intersect(edge, ray_line)
     # print(ray_casting_result)
 
     return ray_casting_result.count(True)
@@ -55,56 +55,64 @@ def main():
     print("CG LAB 3 (Polygon Convex Test)")
     print("Brihat Ratna Bajracharya\n19/075\n")
 
-    ''' get number of vertices for polygon '''
-    print("Enter number of vertex of polygon:"),
-    vertex_num = int(raw_input())
-    # print(vertex_num)
+    choice = 'y' # default choice 'yes'
+    while(choice == 'y' or choice == 'Y'):
+        ''' get number of vertices for polygon '''
+        print("Enter number of vertex of polygon:"),
+        vertex_num = int(raw_input())
+        # print(vertex_num)
 
-    ''' initialize vertex list '''
-    vertex_list = [None] * vertex_num
+        ''' initialize vertex list '''
+        vertex_list = [None] * vertex_num
 
-    ''' get coordinates of each vertices '''
-    for index in range(vertex_num):
-        print("\n Enter coordinates of vertex V{}".format(index+1))
-        vertex_list[index] = Point.input_point()
-    # print(vertex_list)
+        ''' get coordinates of each vertices '''
+        for index in range(vertex_num):
+            print("\n Enter coordinates of vertex V{}".format(index+1))
+            vertex_list[index] = Point.input_point()
+        # print(vertex_list)
 
-    ''' create polygon from given vertex list '''
-    polygon = Polygon(vertex_list)
-    print(polygon)
+        ''' create polygon from given vertex list '''
+        polygon = Polygon(vertex_list)
+        print(polygon)
 
-    ''' left turn test using 3 vertex in anti-clockwise '''
-    convex_check = is_polygon_convex(polygon)
-    print("\nRESULT: Polygon is {}convex.".format('' if convex_check else 'not '))
+        ''' left turn test using 3 vertex in anti-clockwise '''
+        convex_check = is_polygon_convex(polygon)
+        print("\nRESULT: Polygon is {}convex.".format('' if convex_check else 'not '))
 
-    if convex_check:
-        ''' check point inclusion only if polygon is convex '''
-        print("\n\nPOINT INCLUSION BY TURN TEST")
-        print("\n Enter coordinates of Query Point (P)")
-        query_point = Point.input_point()
+        if convex_check:
+            ''' check point inclusion only if polygon is convex '''
+            print("\n\nPOINT INCLUSION BY TURN TEST")
+            print("\n Enter coordinates of Query Point (P)")
+            query_point = Point.input_point()
 
-        ''' point inclusion using turn test '''
-        is_point_in_polygon = is_point_inclusion(polygon, query_point)
-        print("\nRESULT: Query Point {}inside given polygon.".format('' if is_point_in_polygon else 'not '))
+            ''' point inclusion using turn test '''
+            is_point_in_polygon = is_point_inclusion(polygon, query_point)
+            print("\nRESULT: Query Point {}inside given polygon.".format('' if is_point_in_polygon else 'not '))
 
-    print("\n\nRAY CASTING")
-    print("\n Enter coordinates of ray point (R)")
-    ray_point = Point.input_point()
+        print("\n\nRAY CASTING")
+        print("\n Enter coordinates of ray point (R)")
+        ray_point = Point.input_point()
 
-    ''' assuming ray infinity point to the right side of polygon '''
-    ray_xcoord_infinity = max([point.x for point in vertex_list])
-    ray_ycoord_infinity = sum([point.y for point in vertex_list]) / vertex_num
-    ray_point_infinity = Point(ray_xcoord_infinity * 100, ray_ycoord_infinity)
-    ray_line_infinity = LineSegment(ray_point,ray_point_infinity)
-    # print(ray_point_infinity)
-    # print(ray_line_infinity)
+        ''' assuming ray infinity point to the right side of polygon '''
+        ray_xcoord_infinity = max([point.x for point in vertex_list])
+        ray_ycoord_infinity = sum([point.y for point in vertex_list]) / vertex_num
+        ray_point_infinity = Point(ray_xcoord_infinity * 100, ray_ycoord_infinity)
+        ray_line_infinity = LineSegment(ray_point,ray_point_infinity)
+        # print(ray_point_infinity)
+        # print(ray_line_infinity)
 
-    ''' ray intersection using line_segment_intersection test '''
-    ray_intersection_count = ray_casting(polygon, ray_line_infinity)
-    ray_casting_result = ray_intersection_count % 2
+        ''' ray intersection using line_segment_intersection test '''
+        ray_intersection_count = ray_casting(polygon, ray_line_infinity)
+        ray_casting_result = ray_intersection_count % 2
 
-    print("\nRESULT: Ray origin {} of polygon.".format('inside' if ray_casting_result else 'outside'))
-    print("\nDONE.")
+        print("\nRESULT: Ray origin {} of polygon.".format('inside' if ray_casting_result else 'outside'))
+        print("\nDONE.")
+
+        ''' Going again if input is 'y', 'Y' or empty '''
+        print('\nGo again? [Y/n]:'),
+        choice = raw_input()
+        if not choice:
+            choice = 'y'
 
 if __name__ == '__main__':
     main()
