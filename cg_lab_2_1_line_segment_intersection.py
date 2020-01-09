@@ -30,7 +30,7 @@ def check_improper_intersection(line1_start_point, line1_end_point, query_point,
     else:
         print(" Two lines do not intersect each other.")
 
-def does_lines_intersects(line1, line2):
+def check_intersection(line1, line2):
     """ checks whether line1 and line2 crosses each other using turn test """
     is_left_c = is_left_turn(line1.start, line1.terminal, line2.start)
     is_right_c = is_right_turn(line1.start, line1.terminal, line2.start)
@@ -51,10 +51,36 @@ def check_proper_intersection(l1_point_a, l1_point_b, l2_point_c, l2_point_d):
     l1 = LineSegment(l1_point_a, l1_point_b)
     l2 = LineSegment(l2_point_c, l2_point_d)
 
-    result = does_lines_intersects(l1, l2)
+    result = check_intersection(l1, l2)
     if result:
         print(" Proper Intersection")
     print(" Two lines do {}intersect each other.".format('' if result else 'not '))
+
+
+''' NEW FUNCTION that checks for both improper and proper intersection '''
+def does_lines_intersect(line1, line2):
+    """ checks whether line1 and line2 crosses each other using turn test """
+    ''' if not colinear, check turn test,
+        but if colinear, check improper intersection and return the result
+    '''
+    if not is_colinear(line1.start, line1.terminal, line2.start):
+        is_left_c = is_left_turn(line1.start, line1.terminal, line2.start)
+        is_right_c = is_right_turn(line1.start, line1.terminal, line2.start)
+    else:
+        return is_point_inbetween(line1.start, line1.terminal, line2.start)
+
+    if not is_colinear(line1.start, line1.terminal, line2.terminal):
+        is_left_d = is_left_turn(line1.start, line1.terminal, line2.terminal)
+        is_right_d = is_right_turn(line1.start, line1.terminal, line2.terminal)
+    else:
+        return is_point_inbetween(line1.start, line1.terminal, line2.terminal)
+
+    """
+        IF both ends of line2 lies in same side of line1, no intersection
+        IF two ends of line2 lies in opposite site, they should intersect
+    """
+    res = (is_left_c and is_left_d) or (is_right_c and is_right_d)
+    return False if res else True
 
 def main():
     """ Main Function """
