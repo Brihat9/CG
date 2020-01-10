@@ -2,7 +2,7 @@
 
 from basics import Point, LineSegment
 from circular_doubly_linked_list import CircularDoublyLinkedList
-from cg_lab_2_lr_turn import is_left_turn
+from cg_lab_2_lr_turn import compute_area, is_left_turn
 from cg_lab_2_1_line_segment_intersection import does_lines_intersect
 
 import copy
@@ -44,6 +44,13 @@ def is_point_inclusion(polygon, query_point):
 
     return True if set(is_qpoint_left_turn_list) == {True} else False
 
+def is_vertex_colinear(ray_line, vertex):
+    """ checks whether polygon vertex is colinear with ray
+        using area of triangle == 0 condition
+    """
+    area = compute_area(ray_line.start, ray_line.terminal, vertex)
+    return 1 if area == 0.0 else 0
+
 def ray_casting(polygon, ray_line):
     """ checks number of intersection a ray makes with polygon
         parameters: Polygon, ray (line)
@@ -52,13 +59,22 @@ def ray_casting(polygon, ray_line):
     vertex_num = polygon.get_count()
     ray_casting_result = [False] * vertex_num
 
+    ''' count for vertices colinear with ray '''
+    vertex_colinear_with_ray = 0
+
     cursor = polygon.head
     for index in range(vertex_num):
         edge = LineSegment(cursor.data, cursor.next.data)
         ray_casting_result[index] = does_lines_intersect(edge, ray_line)
         cursor = cursor.next
+
+        ''' added to check whether vertex is colinear with ray '''
+        vertex_colinear_with_ray = vertex_colinear_with_ray + is_vertex_colinear(ray_line, cursor.data)
     # print(ray_casting_result)
-    return ray_casting_result.count(True)
+    # print(vertex_colinear_with_ray)
+
+    ''' adjusted for colinear vertices '''
+    return ray_casting_result.count(True) - vertex_colinear_with_ray
 
 def main():
     # print("LAB3")
