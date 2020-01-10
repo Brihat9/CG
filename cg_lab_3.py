@@ -9,7 +9,7 @@ import copy
 import math
 
 ''' change input file here '''
-INPUT_FILE = 'cg_lab_3_input_file_4'
+INPUT_FILE = 'cg_lab_3_input_file_1'
 
 def is_polygon_convex(polygon):
     """ checks whether given polygon is convex or not
@@ -169,8 +169,8 @@ def main():
         ray_ycoord_infinity = sum([point.y for point in sorted_p]) / vertex_num
         ray_point_infinity = Point(ray_xcoord_infinity * 100, ray_ycoord_infinity)
         ray_line_infinity = LineSegment(ray_point,ray_point_infinity)
-        print("\n  Ray Point Infinity: " + str(ray_point_infinity))
-        print("  Ray Line: " + str(ray_line_infinity))
+        # print("\n  Ray Point Infinity: " + str(ray_point_infinity))
+        # print("  Ray Line: " + str(ray_line_infinity))
 
         ''' ray intersection using line_segment_intersection test '''
         ray_intersection_count = ray_casting(polygon, ray_line_infinity)
