@@ -9,7 +9,7 @@ import copy
 import math
 
 ''' change input file here '''
-INPUT_FILE = 'cg_lab_3_input_file_1'
+INPUT_FILE = 'cg_lab_3_input_file_4'
 
 def is_polygon_convex(polygon):
     """ checks whether given polygon is convex or not
@@ -49,7 +49,7 @@ def is_vertex_colinear(ray_line, vertex):
         using area of triangle == 0 condition
     """
     area = compute_area(ray_line.start, ray_line.terminal, vertex)
-    return 1 if area == 0.0 else 0
+    return True if area == 0.0 else False
 
 def ray_casting(polygon, ray_line):
     """ checks number of intersection a ray makes with polygon
@@ -59,8 +59,8 @@ def ray_casting(polygon, ray_line):
     vertex_num = polygon.get_count()
     ray_casting_result = [False] * vertex_num
 
-    ''' count for vertices colinear with ray '''
-    vertex_colinear_with_ray = 0
+    ''' count for vertices that is colinear and intersects with ray '''
+    vertex_colinear_intersect_with_ray = 0
 
     cursor = polygon.head
     for index in range(vertex_num):
@@ -69,12 +69,13 @@ def ray_casting(polygon, ray_line):
         cursor = cursor.next
 
         ''' added to check whether vertex is colinear with ray '''
-        vertex_colinear_with_ray = vertex_colinear_with_ray + is_vertex_colinear(ray_line, cursor.data)
+        if is_vertex_colinear(ray_line, cursor.data) and ray_casting_result[index]:
+            vertex_colinear_intersect_with_ray = vertex_colinear_intersect_with_ray + 1
     # print(ray_casting_result)
-    # print(vertex_colinear_with_ray)
+    # print(vertex_colinear_intersect_with_ray)
 
     ''' adjusted for colinear vertices '''
-    return ray_casting_result.count(True) - vertex_colinear_with_ray
+    return ray_casting_result.count(True) - vertex_colinear_intersect_with_ray
 
 def main():
     # print("LAB3")
@@ -168,8 +169,8 @@ def main():
         ray_ycoord_infinity = sum([point.y for point in sorted_p]) / vertex_num
         ray_point_infinity = Point(ray_xcoord_infinity * 100, ray_ycoord_infinity)
         ray_line_infinity = LineSegment(ray_point,ray_point_infinity)
-        # print("\n  Ray Point Infinity: " + str(ray_point_infinity))
-        # print("  Ray Line: " + str(ray_line_infinity))
+        print("\n  Ray Point Infinity: " + str(ray_point_infinity))
+        print("  Ray Line: " + str(ray_line_infinity))
 
         ''' ray intersection using line_segment_intersection test '''
         ray_intersection_count = ray_casting(polygon, ray_line_infinity)
