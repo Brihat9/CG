@@ -2,14 +2,14 @@
 
 from basics import Point, LineSegment
 from circular_doubly_linked_list import CircularDoublyLinkedList
-from cg_lab_2_lr_turn import compute_area, is_left_turn
+from cg_lab_2_lr_turn import compute_area, is_colinear, is_left_turn
 from cg_lab_2_1_line_segment_intersection import does_lines_intersect
 
 import copy
 import math
 
 ''' change input file here '''
-INPUT_FILE = 'cg_lab_3_input_file_1'
+INPUT_FILE = 'cg_lab_3_input_file_5'
 
 def is_polygon_convex(polygon):
     """ checks whether given polygon is convex or not
@@ -51,6 +51,18 @@ def is_vertex_colinear(ray_line, vertex):
     area = compute_area(ray_line.start, ray_line.terminal, vertex)
     return True if area == 0.0 else False
 
+def check_ray_on_polygon_boundary(polygon, ray_start):
+    """ checks whether ray_start lies on the boundary of polygon
+        if ray_start lies on boundary, return that edge
+        else return False
+    """
+    vertex_num = polygon.get_count()
+    cursor = polygon.head
+    for index in range(vertex_num):
+        if is_colinear(cursor.data, cursor.next.data, ray_start):
+            return LineSegment(cursor.data, cursor.next.data)
+    return False
+
 def ray_casting(polygon, ray_line):
     """ checks number of intersection a ray makes with polygon
         parameters: Polygon, ray (line)
@@ -78,7 +90,6 @@ def ray_casting(polygon, ray_line):
     return ray_casting_result.count(True) - vertex_colinear_intersect_with_ray
 
 def main():
-    # print("LAB3")
     """ Main Function """
 
     print("CG LAB 3")
@@ -164,19 +175,24 @@ def main():
         ray_point =  Point(int(rp[0]), int(rp[1]))
         print(ray_point)
 
-        ''' assuming ray infinity point to the right side of polygon '''
-        ray_xcoord_infinity = max([point.x for point in sorted_p])
-        ray_ycoord_infinity = sum([point.y for point in sorted_p]) / vertex_num
-        ray_point_infinity = Point(ray_xcoord_infinity * 100, ray_ycoord_infinity)
-        ray_line_infinity = LineSegment(ray_point,ray_point_infinity)
-        # print("\n  Ray Point Infinity: " + str(ray_point_infinity))
-        # print("  Ray Line: " + str(ray_line_infinity))
+        ray_on_edge = check_ray_on_polygon_boundary(polygon, ray_point)
+        if ray_on_edge:
+            print("\nRESULT: Ray origin on boundary of polygon.")
+            print("\tRay origin on edge joining points {}.".format(ray_on_edge))
+        else:
+            ''' assuming ray infinity point to the right side of polygon '''
+            ray_xcoord_infinity = max([point.x for point in sorted_p])
+            ray_ycoord_infinity = sum([point.y for point in sorted_p]) / vertex_num
+            ray_point_infinity = Point(ray_xcoord_infinity * 100, ray_ycoord_infinity)
+            ray_line_infinity = LineSegment(ray_point,ray_point_infinity)
+            # print("\n  Ray Point Infinity: " + str(ray_point_infinity))
+            # print("  Ray Line: " + str(ray_line_infinity))
 
-        ''' ray intersection using line_segment_intersection test '''
-        ray_intersection_count = ray_casting(polygon, ray_line_infinity)
-        ray_casting_result = ray_intersection_count % 2
+            ''' ray intersection using line_segment_intersection test '''
+            ray_intersection_count = ray_casting(polygon, ray_line_infinity)
+            ray_casting_result = ray_intersection_count % 2
 
-        print("\nRESULT: Ray origin {} of polygon.".format('inside' if ray_casting_result else 'outside'))
+            print("\nRESULT: Ray origin {} of polygon.".format('inside' if ray_casting_result else 'outside'))
 
         in_file.close()
         print("\nDONE.")
@@ -184,7 +200,6 @@ def main():
     except Exception as e:
         print("\n\nERROR OCCURED !!!\n Type of Error:  " + type(e).__name__)
         print(" Error message:  " + str(e.message))
-
 
 if __name__ == '__main__':
     main()
