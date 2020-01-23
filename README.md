@@ -21,3 +21,17 @@
       6,7
       0,7
       ```
+
+### LAB 4 - Convex Hull
+
+  - ##### _Note for LAB 4_
+  - Content of `cg_lab_4_input_file` should be as below
+      ```
+      1. <number of points>
+      2. <list of points in form of x-coord,y-coord separated by space>
+      ```
+      _e.g._
+      ```
+      11
+      5,8 2,7 7,7 5,6 3,5 6,5 4,4 3,3 2,2 5,2 8,3
+      ```
