@@ -27,6 +27,9 @@ class Point:
 
         return self.x == other.x and self.y == other.y
 
+    def __hash__(self):
+        return id(self)
+
 class LineSegment:
     """ Line Segment Class """
     def __init__(self, point1, point2):
