@@ -3,7 +3,7 @@
 from basics import Point, LineSegment
 from circular_doubly_linked_list import CircularDoublyLinkedList
 from cg_lab_2_lr_turn import compute_area, is_colinear, is_left_turn
-from cg_lab_2_1_line_segment_intersection import does_lines_intersect
+from cg_lab_2_1_line_segment_intersection import does_lines_intersect, is_point_inbetween
 
 import copy
 import math
@@ -59,7 +59,7 @@ def check_ray_on_polygon_boundary(polygon, ray_start):
     vertex_num = polygon.get_count()
     cursor = polygon.head
     for index in range(vertex_num):
-        if is_colinear(cursor.data, cursor.next.data, ray_start):
+        if is_colinear(cursor.data, cursor.next.data, ray_start) and is_point_inbetween(cursor.data, cursor.next.data, ray_start):
             return LineSegment(cursor.data, cursor.next.data)
     return False
 
