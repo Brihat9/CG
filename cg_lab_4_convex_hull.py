@@ -279,9 +279,9 @@ def main():
     in_file = open(INPUT_FILE, 'r')
 
     ''' get number of vertices for polygon '''
-    print("Enter number of vertex of polygon:"),
-    vertex_num = int(in_file.readline())
-    print(vertex_num)
+    print("Enter number of points:"),
+    points_num = int(in_file.readline())
+    print(points_num)
 
     ''' reads coords of point '''
     input_coords = in_file.readline()
@@ -289,11 +289,11 @@ def main():
     # print(input_coords_list)
 
     ''' initialize vertex list '''
-    points = [None] * vertex_num
+    points = [None] * points_num
 
     ''' get coordinates of each vertices '''
-    for index in range(vertex_num):
-        print(" Enter coordinates of vertex V{}:".format(index+1)),
+    for index in range(points_num):
+        print(" Enter coordinates of point P{}:".format(index+1)),
         input_coords_point = input_coords_list[index].split(',')
         points[index] = Point(int(input_coords_point[0]), int(input_coords_point[1]))
         print(points[index])
@@ -345,7 +345,6 @@ def main():
 
 
     print("\nDONE.")
-
 
 if __name__ == '__main__':
     main()
