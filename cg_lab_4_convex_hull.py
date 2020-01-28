@@ -278,7 +278,7 @@ def main():
     ''' reads input file '''
     in_file = open(INPUT_FILE, 'r')
 
-    ''' get number of vertices for polygon '''
+    ''' get number of points '''
     print("Enter number of points:"),
     points_num = int(in_file.readline())
     print(points_num)
@@ -291,7 +291,7 @@ def main():
     ''' initialize vertex list '''
     points = [None] * points_num
 
-    ''' get coordinates of each vertices '''
+    ''' get coordinates of each point '''
     for index in range(points_num):
         print(" Enter coordinates of point P{}:".format(index+1)),
         input_coords_point = input_coords_list[index].split(',')
@@ -342,7 +342,6 @@ def main():
 
     convex_hull_gift_wrap_linked_list = gift_wrap_convex_hull_linked_list(point_linked_list)
     convex_hull_gift_wrap_linked_list.display("Convex Hull (Gift Wrap) 2")
-
 
     print("\nDONE.")
 
