@@ -268,6 +268,70 @@ def gift_wrap_convex_hull_linked_list(point_linked_list):
 
     return gift_wrap_linked_list
 
+def graham_scan_convex_hull(points):
+    ''' Graham Scan Algorithm
+
+        parameter: points = array of given points
+
+        result: Array of Convex Hull Points
+    '''
+
+    # num of points
+    vertex_num = len(points)
+
+    # result variable
+    convex_hull_graham_scan = []
+
+    # get min Y- Coord point
+    sorted_points_inc_y = copy.deepcopy(points)
+    sorted_points_inc_y.sort(key=lambda p: p.y)
+    min_y_coord_point = sorted_points_inc_y[0]
+    # print(min_y_coord_point)
+
+    # sort points in anti-clockwise order wrt min_y_coord_point
+    sorted_p = copy.deepcopy(points)
+    sorted_p.sort(key=lambda p: math.atan2(p.y-min_y_coord_point.y,p.x-min_y_coord_point.x))
+
+    ''' show points in sorted order '''
+    # print("\nPoints in sorted order")
+    # for index in range(vertex_num):
+    #     print(sorted_p[index]),
+    # print("\n")
+
+    ''' Graham Scan Algorithm begins here '''
+    # add first two coordinates of sorted points in result
+    convex_hull_graham_scan.append(sorted_p[0])
+    convex_hull_graham_scan.append(sorted_p[1])
+
+    ''' these are top of stack and next top of stack, using list (for testing)'''
+    # print(point_stack[-1])
+    # print(point_stack[-2])
+
+    '''
+        i = 2
+        while(i < N):
+            if left_turn(top(stack), next_top(stack), sorted_point(i)):
+                stack.push(sorted_point[i])
+                i++
+            else:
+                stack.pop()
+    '''
+    index = 2
+    while(index < vertex_num):
+        if is_left_turn(convex_hull_graham_scan[-2], convex_hull_graham_scan[-1], sorted_p[index]):
+            convex_hull_graham_scan.append(sorted_p[index])
+            index += 1
+        else:
+            convex_hull_graham_scan.pop()
+
+    ''' show Convex Hull result '''
+    # print("\nConvex Hull (Graham Scan)")
+    # for index in range(len(convex_hull_graham_scan)):
+    #     print(convex_hull_graham_scan[index]),
+    # print("\n")
+
+    return convex_hull_graham_scan
+
 
 def main():
     """ Main Function """
@@ -342,6 +406,18 @@ def main():
 
     convex_hull_gift_wrap_linked_list = gift_wrap_convex_hull_linked_list(point_linked_list)
     convex_hull_gift_wrap_linked_list.display("Convex Hull (Gift Wrap) 2")
+
+
+    ''' FINDING CONVEX HULL: GRAHAM SCAN ALGORITHM '''
+    convex_hull_graham_scan = graham_scan_convex_hull(points)
+
+    print("\nConvex Hull (Graham Scan): ["),
+    for index in range(len(convex_hull_graham_scan)):
+        print(convex_hull_graham_scan[index]),
+        if index != len(convex_hull_graham_scan) - 1:
+            print(","),
+    print("]")
+
 
     print("\nDONE.")
 
