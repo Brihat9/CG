@@ -1,0 +1,16 @@
+# latex
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.fls
+*.out
+
+## Build tool auxiliary files:
+*.synctex.gz
+*.synctex.gz(busy)
+
+## Style Files
+enumitem.sty
+spverbatim.sty
+
+## Misc
+*cache.yaml
