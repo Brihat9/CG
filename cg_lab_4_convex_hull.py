@@ -10,7 +10,7 @@ import math
 import pprint
 
 ''' change input file here '''
-INPUT_FILE = 'cg_lab_4_input_file'
+INPUT_FILE = 'cg_lab_4_input_file_test'
 
 
 def get_extreme_points_based_convex_hull(points):
@@ -279,6 +279,11 @@ def graham_scan_convex_hull(points):
     # num of points
     vertex_num = len(points)
 
+    # if number of points are less than 4, then the input set of points\
+    # are the convex hull itself
+    if vertex_num < 4:
+        return points
+
     # result variable
     convex_hull_graham_scan = []
 
@@ -299,16 +304,17 @@ def graham_scan_convex_hull(points):
     # print("\n")
 
     ''' Graham Scan Algorithm begins here '''
-    # add first two coordinates of sorted points in result
+    # add first three coordinates of sorted points in result
     convex_hull_graham_scan.append(sorted_p[0])
     convex_hull_graham_scan.append(sorted_p[1])
+    convex_hull_graham_scan.append(sorted_p[2])
 
     ''' these are top of stack and next top of stack, using list (for testing)'''
     # print(point_stack[-1])
     # print(point_stack[-2])
 
     '''
-        i = 2
+        i = 3
         while(i < N):
             if left_turn(top(stack), next_top(stack), sorted_point(i)):
                 stack.push(sorted_point[i])
@@ -316,7 +322,7 @@ def graham_scan_convex_hull(points):
             else:
                 stack.pop()
     '''
-    index = 2
+    index = 3
     while(index < vertex_num):
         if is_left_turn(convex_hull_graham_scan[-2], convex_hull_graham_scan[-1], sorted_p[index]):
             convex_hull_graham_scan.append(sorted_p[index])
