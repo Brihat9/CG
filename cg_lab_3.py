@@ -7,6 +7,8 @@ from cg_lab_2_1_line_segment_intersection import does_lines_intersect, is_point_
 
 import copy
 import math
+import os
+import sys
 
 ''' change input file here '''
 INPUT_FILE = 'cg_lab_3_input_file_5'
@@ -21,7 +23,8 @@ def is_polygon_convex(polygon):
 
     cursor = polygon.head
     for index in range(vertex_num):
-        is_left_list[index] = is_left_turn(cursor.data, cursor.next.data, cursor.next.next.data)
+        ''' added for colinear; if colinear treat as left turn (2 March 2020) '''
+        is_left_list[index] = is_left_turn(cursor.data, cursor.next.data, cursor.next.next.data) or is_colinear(cursor.data, cursor.next.data, cursor.next.next.data)
         cursor = cursor.next
     # print(is_left_list)
 
@@ -94,6 +97,21 @@ def main():
 
     print("CG LAB 3")
     print("Brihat Ratna Bajracharya\n19/075\n")
+
+    global INPUT_FILE
+
+    try:
+        input_file_arg = sys.argv[1]
+        if os.path.exists(input_file_arg):
+            INPUT_FILE = input_file_arg
+            print("Using file: " + INPUT_FILE + "\n")
+        else:
+            print("Input file not found")
+            INPUT_FILE = 'cg_lab_3_input_file_5'
+            print("Using file: " + INPUT_FILE + "\n")
+    except:
+        print("No input file given. Taking default")
+        print("Using file: " + INPUT_FILE + "\n")
 
     try:
         ''' reads input file '''
@@ -182,8 +200,8 @@ def main():
         else:
             ''' assuming ray infinity point to the right side of polygon '''
             ray_xcoord_infinity = max([point.x for point in sorted_p])
-            ray_ycoord_infinity = sum([point.y for point in sorted_p]) / vertex_num
-            ray_point_infinity = Point(ray_xcoord_infinity * 100, ray_ycoord_infinity)
+            # ray_ycoord_infinity = sum([point.y for point in sorted_p]) / vertex_num
+            ray_point_infinity = Point(ray_xcoord_infinity + 1, ray_point.y)
             ray_line_infinity = LineSegment(ray_point,ray_point_infinity)
             # print("\n  Ray Point Infinity: " + str(ray_point_infinity))
             # print("  Ray Line: " + str(ray_line_infinity))
