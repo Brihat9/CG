@@ -58,7 +58,7 @@ import math
 import pprint
 
 ''' change input file here '''
-INPUT_FILE = 'cg_lab_4_input_file'
+INPUT_FILE = 'cg_lab_4_input_file_test'
 
 def get_extreme_points_based_convex_hull(points):
     ''' returns sorted list of extreme points from given set of points
@@ -272,6 +272,11 @@ def graham_scan_convex_hull(points):
     # num of points
     vertex_num = len(points)
 
+    # if number of points are less than 4, then the input set of points
+    # are the convex hull itself
+    if vertex_num < 4:
+        return points
+
     # result variable
     convex_hull_graham_scan = []
 
@@ -286,16 +291,17 @@ def graham_scan_convex_hull(points):
     sorted_p.sort(key=lambda p: math.atan2(p.y-min_y_coord_point.y,p.x-min_y_coord_point.x))
 
     ''' Graham Scan Algorithm begins here '''
-    # add first two coordinates of sorted points in result
+    # add first three coordinates of sorted points in result
     convex_hull_graham_scan.append(sorted_p[0])
     convex_hull_graham_scan.append(sorted_p[1])
+    convex_hull_graham_scan.append(sorted_p[2])
 
     ''' these are top of stack and next top of stack, using list (for testing)'''
     # print(point_stack[-1])
     # print(point_stack[-2])
 
     '''
-        i = 2
+        i = 3
         while(i < N):
             if left_turn(top(stack), next_top(stack), sorted_point(i)):
                 stack.push(sorted_point[i])
@@ -303,7 +309,7 @@ def graham_scan_convex_hull(points):
             else:
                 stack.pop()
     '''
-    index = 2
+    index = 3
     while(index < vertex_num):
         if is_left_turn(convex_hull_graham_scan[-2], convex_hull_graham_scan[-1], sorted_p[index]):
             convex_hull_graham_scan.append(sorted_p[index])
@@ -323,9 +329,9 @@ def main():
     in_file = open(INPUT_FILE, 'r')
 
     ''' get number of points '''
-    print("Enter number of vertex of polygon:"),
-    vertex_num = int(in_file.readline())
-    print(vertex_num)
+    print("Enter number of points:"),
+    points_num = int(in_file.readline())
+    print(points_num)
 
     ''' reads coords of point '''
     input_coords = in_file.readline()
@@ -333,11 +339,11 @@ def main():
     # print(input_coords_list)
 
     ''' initialize vertex list '''
-    points = [None] * vertex_num
+    points = [None] * points_num
 
-    ''' get coordinates of point '''
-    for index in range(vertex_num):
-        print(" Enter coordinates of vertex V{}:".format(index+1)),
+    ''' get coordinates of each point '''
+    for index in range(points_num):
+        print(" Enter coordinates of point P{}:".format(index+1)),
         input_coords_point = input_coords_list[index].split(',')
         points[index] = Point(int(input_coords_point[0]), int(input_coords_point[1]))
         print(points[index])
@@ -420,9 +426,7 @@ Convex Hull (Extreme Points): [ (3, 3) , (2, 2) , (5, 2) , (8, 3) , (7, 7) , (5,
 Convex Hull (Extreme Edges): [ [(2, 2), (5, 2)] --- [(5, 2), (8, 3)] --- [(8, 3), (7, 7)] --- [(7, 7), (5, 8)] --- [(5, 8), (2, 7)] --- [(2, 7), (2, 2)] ]
 
 Convex Hull (Gift Wrap) 2: [ (2, 2) (5, 2) (8, 3) (7, 7) (5, 8) (2, 7) ] #
-
 Convex Hull (Graham Scan): [ (2, 2) , (5, 2) , (8, 3) , (7, 7) , (5, 8) , (2, 7) ]
-
 DONE.
       \end{spverbatim}
     \end{footnotesize}
