@@ -63,24 +63,33 @@ def does_lines_intersect(line1, line2):
     ''' if not colinear, check turn test,
         but if colinear, check improper intersection and return the result
     '''
-    if not is_colinear(line1.start, line1.terminal, line2.start):
+    if not is_colinear(line2.start, line2.terminal, line1.start):
         is_left_c = is_left_turn(line1.start, line1.terminal, line2.start)
         is_right_c = is_right_turn(line1.start, line1.terminal, line2.start)
-    else:
-        return is_point_inbetween(line1.start, line1.terminal, line2.start)
 
-    if not is_colinear(line1.start, line1.terminal, line2.terminal):
+        is_left_a = is_left_turn(line2.start, line2.terminal, line1.start)
+        is_right_a = is_right_turn(line2.start, line2.terminal, line1.start)
+    else:
+        return is_point_inbetween(line2.start, line2.terminal, line1.start)
+
+    if not is_colinear(line2.start, line2.terminal, line1.terminal):
         is_left_d = is_left_turn(line1.start, line1.terminal, line2.terminal)
         is_right_d = is_right_turn(line1.start, line1.terminal, line2.terminal)
+
+        is_left_b = is_left_turn(line2.start, line2.terminal, line1.terminal)
+        is_right_b = is_right_turn(line2.start, line2.terminal, line1.terminal)
     else:
-        return is_point_inbetween(line1.start, line1.terminal, line2.terminal)
+        return is_point_inbetween(line2.start, line2.terminal, line1.terminal)
 
     """
         IF both ends of line2 lies in same side of line1, no intersection
         IF two ends of line2 lies in opposite site, they should intersect
     """
-    res = (is_left_c and is_left_d) or (is_right_c and is_right_d)
-    return False if res else True
+
+    if (is_left_a == is_left_b) or (is_right_a == is_right_b) or (is_left_c == is_left_d) or (is_right_c == is_right_d):
+        return False
+    return True
+
 
 def main():
     """ Main Function """
